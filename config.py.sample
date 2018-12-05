@@ -1,0 +1,5 @@
+LOG_LEVEL = 'ERROR'
+
+FILES_STORE = '/path/to/files/store'
+FILES_URLS_FIELD = 'file_urls'
+FILES_RESULT_FIELD = 'files'
