@@ -7,8 +7,8 @@ from sqlalchemy.ext.declarative import declarative_base
 import config
 
 
-_engine = create_engine('mysql+pymysql://{3}:{4}@{0}:{1}/{2}?charset=utf8mb4'
-                        .format(config.MYSQL_HOST, config.MYSQL_PORT, config.MYSQL_DATABASE,
+_engine = create_engine('mysql+pymysql://{3}:{4}@{0}:{1}/{2}?charset=utf8mb4'.format(
+                                config.MYSQL_HOST, config.MYSQL_PORT, config.MYSQL_DATABASE,
                                 config.MYSQL_USER, config.MYSQL_PASSWORD),
                         echo=config.MYSQL_ECHO)
 _database = sessionmaker(bind=_engine)()
