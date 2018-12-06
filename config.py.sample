@@ -1,4 +1,5 @@
 LOG_LEVEL = 'ERROR'
+ROBOTSTXT_OBEY = True
 
 FILES_STORE = '/path/to/files/store'
 FILES_URLS_FIELD = 'file_urls'

@@ -23,7 +23,7 @@ LOG_LEVEL = config.LOG_LEVEL
 #USER_AGENT = 'sharp_eye_spiders (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = config.ROBOTSTXT_OBEY
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32

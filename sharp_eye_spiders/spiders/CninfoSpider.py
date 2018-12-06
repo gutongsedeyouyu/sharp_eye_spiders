@@ -13,7 +13,7 @@ class CninfoSpider(scrapy.Spider):
         self.db = _database
 
     def start_requests(self):
-        yield scrapy.Request(url='http://www.cninfo.com.cn/new/index/getAnnouces?type=sz',
+        yield scrapy.Request(url='http://www.cninfo.com.cn/new/disclosure?column=szse_latest&pageNum=1&pageSize=20', method='POST',
                              callback=self.parse, meta={'securityCodePrefix': 'SZ'})
 
     def parse(self, response):
