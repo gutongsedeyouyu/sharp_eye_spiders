@@ -14,7 +14,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 import config
-from sharp_eye_spiders.items import PdfItem
+from sharp_eye_spiders.items import AnnouncementItem
 
 
 _engine = create_engine('mysql+pymysql://{3}:{4}@{0}:{1}/{2}?charset=utf8mb4'
@@ -25,11 +25,15 @@ _database = sessionmaker(bind=_engine)()
 BaseModel = declarative_base()
 
 
-class AnnouncementDocument(BaseModel):
-    __tablename__ = 'announcementdocument'
+class AnnouncementFile(BaseModel):
+    __tablename__ = 'announcementfile'
     id = Column('id', BigInteger, primary_key=True)
-    docummentUrl = Column('documentlurl', String(255))
-    originalUrl = Column('originalurl', String(255))
+    securityCode = Column('securitycode', String(16))
+    companyName = Column('companyname', String(32))
+    title = Column('title', String(128))
+    announcementTime = Column('announcementTime', DateTime)
+    fileUrl = Column('filelurl', String(256), unique=True)
+    originalUrl = Column('originalurl', String(256), unique=True)
     createTime = Column('createtime', DateTime)
 
 
@@ -43,12 +47,18 @@ class PdfPipeline(FilesPipeline):
             yield scrapy.Request(image_url, headers={'Referer': item['referer']})
 
     def item_completed(self, results, item, info):
-        if not isinstance(item, PdfItem):
+        if not isinstance(item, AnnouncementItem):
             return item
         for ok, result in results:
             if not ok:
                 continue
-            announcement = AnnouncementDocument(docummentUrl=result['url'], originalUrl=result['url'], createTime=datetime.now())
+            if self.db.query(AnnouncementFile).filter(AnnouncementFile.originalUrl == result['url']).count() > 0:
+                continue
+            announcement = AnnouncementFile(securityCode=item['security_code'], companyName=item['company_name'],
+                                            title=item['title'],
+                                            announcementTime=datetime.fromtimestamp(int(item['announcement_time']) / 1000),
+                                            fileUrl=result['url'], originalUrl=result['url'],
+                                            createTime=datetime.now())
             self.db.add(announcement)
             self.db.commit()
         return super().item_completed(results, item, info)

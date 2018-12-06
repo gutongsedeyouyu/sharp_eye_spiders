@@ -8,9 +8,11 @@
 import scrapy
 
 
-class PdfItem(scrapy.Item):
+class AnnouncementItem(scrapy.Item):
+    security_code = scrapy.Field()
+    company_name = scrapy.Field()
+    title = scrapy.Field()
+    announcement_time = scrapy.Field()
     file_urls = scrapy.Field()
     files = scrapy.Field()
     referer = scrapy.Field()
-    company_name = scrapy.Field()
-    title = scrapy.Field()
