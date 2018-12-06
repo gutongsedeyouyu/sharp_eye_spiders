@@ -13,15 +13,17 @@ class CninfoSpider(scrapy.Spider):
         self.db = _database
 
     def start_requests(self):
-        yield scrapy.Request(url='http://www.cninfo.com.cn/new/index/getAnnouces?type=sz', callback=self.parse)
+        yield scrapy.Request(url='http://www.cninfo.com.cn/new/index/getAnnouces?type=sz',
+                             callback=self.parse, meta={'securityCodePrefix': 'SZ'})
 
     def parse(self, response):
         all_announcements = json_loads(response.body.decode('utf-8'))['classifiedAnnouncements']
         for announcements in all_announcements:
             for announcement in announcements:
+                security_code = '{0}{1}'.format(response.meta['securityCodePrefix'], announcement['secCode'])
                 file_url = 'http://www.cninfo.com.cn/{0}'.format(announcement['adjunctUrl'])
                 if AnnouncementFile.exists(self.db, file_url):
                     return
-                yield AnnouncementItem(security_code=announcement['secCode'], company_name=announcement['secName'],
+                yield AnnouncementItem(security_code=security_code, company_name=announcement['secName'],
                                        title=announcement['announcementTitle'], announcement_time=announcement['announcementTime'],
                                        file_urls=[file_url], referer='')
