@@ -20,8 +20,8 @@ class AnnouncementPipeline(FilesPipeline):
         self.db = _database
 
     def get_media_requests(self, item, info):
-        for image_url in item['file_urls']:
-            yield scrapy.Request(image_url, headers={'Referer': item['referer']})
+        for file_url in item['file_urls']:
+            yield scrapy.Request(file_url, headers={'Referer': item['referer']})
 
     def item_completed(self, results, item, info):
         if not isinstance(item, AnnouncementItem):
