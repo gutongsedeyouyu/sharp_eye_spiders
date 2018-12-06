@@ -6,10 +6,12 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 from datetime import datetime
+import os
 
 import scrapy
 from scrapy.pipelines.files import FilesPipeline
 
+from sharp_eye_spiders import settings
 from sharp_eye_spiders.items import AnnouncementItem
 from sharp_eye_spiders.models import _database, AnnouncementFile
 
@@ -29,6 +31,7 @@ class AnnouncementPipeline(FilesPipeline):
         for ok, result in results:
             if not ok:
                 continue
+            file_path = '{0}{1}{2}'.format(settings.FILES_STORE, os.path.sep, result['path'])
             AnnouncementFile.add(self.db, security_code=item['security_code'], company_name=item['company_name'],
                                  title=item['title'],
                                  announcement_time=datetime.fromtimestamp(int(item['announcement_time']) / 1000),
