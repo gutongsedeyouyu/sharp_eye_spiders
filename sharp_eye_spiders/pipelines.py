@@ -37,7 +37,7 @@ class AnnouncementFile(BaseModel):
     createTime = Column('createtime', DateTime)
 
 
-class PdfPipeline(FilesPipeline):
+class AnnouncementPipeline(FilesPipeline):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.db = sessionmaker(bind=_engine)()
