@@ -34,7 +34,7 @@ class CninfoSpider(scrapy.Spider):
                 security_code = '{0}{1}'.format(security_code_prefix, announcement['secCode'])
                 file_url = 'http://www.cninfo.com.cn/{0}'.format(announcement['adjunctUrl'])
                 if AnnouncementFile.exists(self.db, file_url):
-                    return
+                    continue
                 yield AnnouncementItem(security_code=security_code, company_name=announcement['secName'],
                                        title=announcement['announcementTitle'], announcement_time=announcement['announcementTime'],
                                        source='CNINFO', file_urls=[file_url], referer='')
