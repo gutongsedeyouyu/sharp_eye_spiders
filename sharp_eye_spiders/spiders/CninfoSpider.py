@@ -41,4 +41,4 @@ class CninfoSpider(scrapy.Spider):
         if page_num < page_count:
             page_num = page_num + 1
             yield scrapy.Request(url=self.page_url(security_code_prefix, page_num), method='POST',
-                             callback=self.parse_page, meta={'securityCodePrefix': security_code_prefix, 'pageNum': page_num, 'pageCount': page_count})
+                                 callback=self.parse_page, meta={'securityCodePrefix': security_code_prefix, 'pageNum': page_num, 'pageCount': page_count})
