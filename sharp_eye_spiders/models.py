@@ -16,15 +16,16 @@ BaseModel = declarative_base()
 
 
 class AnnouncementFile(BaseModel):
-    __tablename__ = 'announcementfile'
+    __tablename__ = 'announcement_file'
     id = Column('id', BigInteger, primary_key=True)
-    securityCode = Column('securitycode', String(16))
-    companyName = Column('companyname', String(32))
+    securityCode = Column('security_code', String(16))
+    companyName = Column('company_name', String(32))
     title = Column('title', String(128))
-    announcementTime = Column('announcementTime', DateTime)
-    fileUrl = Column('filelurl', String(256), unique=True)
-    originalUrl = Column('originalurl', String(256), unique=True)
-    createTime = Column('createtime', DateTime)
+    announcementTime = Column('announcement_time', DateTime)
+    source = Column('source', String(16))
+    fileUrl = Column('file_url', String(256), unique=True)
+    originalUrl = Column('original_url', String(256), unique=True)
+    createTime = Column('create_time', DateTime)
 
     @staticmethod
     def exists(db, original_url):
@@ -32,10 +33,11 @@ class AnnouncementFile(BaseModel):
         return cursor.count() > 0
 
     @staticmethod
-    def add(db, security_code, company_name, title, announcement_time, file_url, original_url):
+    def add(db, security_code, company_name, title, announcement_time, file_url, original_url, source):
         now = datetime.now()
         announcement = AnnouncementFile(securityCode=security_code, companyName=company_name,
                                         title=title, announcementTime=announcement_time,
-                                        fileUrl=file_url, originalUrl=original_url, createTime=now)
+                                        source=source, fileUrl=file_url, originalUrl=original_url,
+                                        createTime=now)
         db.add(announcement)
         db.commit()

@@ -13,6 +13,7 @@ class AnnouncementItem(scrapy.Item):
     company_name = scrapy.Field()
     title = scrapy.Field()
     announcement_time = scrapy.Field()
+    source = scrapy.Field()
     file_urls = scrapy.Field()
     files = scrapy.Field()
     referer = scrapy.Field()

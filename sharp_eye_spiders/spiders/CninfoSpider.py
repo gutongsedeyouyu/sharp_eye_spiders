@@ -26,4 +26,4 @@ class CninfoSpider(scrapy.Spider):
                     return
                 yield AnnouncementItem(security_code=security_code, company_name=announcement['secName'],
                                        title=announcement['announcementTitle'], announcement_time=announcement['announcementTime'],
-                                       file_urls=[file_url], referer='')
+                                       source='CNINFO', file_urls=[file_url], referer='')

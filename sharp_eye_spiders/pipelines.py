@@ -35,5 +35,5 @@ class AnnouncementPipeline(FilesPipeline):
             AnnouncementFile.add(self.db, security_code=item['security_code'], company_name=item['company_name'],
                                  title=item['title'],
                                  announcement_time=datetime.fromtimestamp(int(item['announcement_time']) / 1000),
-                                 file_url=result['url'], original_url=result['url'])
+                                 source=item['source'], file_url=result['url'], original_url=result['url'])
         return super().item_completed(results, item, info)
