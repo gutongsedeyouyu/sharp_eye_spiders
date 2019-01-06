@@ -15,9 +15,16 @@ _database = sessionmaker(bind=_engine)()
 BaseModel = declarative_base()
 
 
+class Company(BaseModel):
+    __tablename__ = 'company'
+    id = Column('keyNo', String(32), primary_key=True)
+    name = Column('name', String(100))
+
+
 class AnnouncementFile(BaseModel):
     __tablename__ = 'announcement_file'
     id = Column('id', BigInteger, primary_key=True)
+    companyId = Column('company_id', String(32))
     securityCode = Column('security_code', String(16))
     companyName = Column('company_name', String(32))
     title = Column('title', String(128))
