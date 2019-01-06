@@ -19,6 +19,7 @@ class Company(BaseModel):
     __tablename__ = 'company'
     id = Column('keyNo', String(32), primary_key=True)
     name = Column('name', String(100))
+    securityCode = Column('stockNumber', String(100))
 
 
 class AnnouncementFile(BaseModel):

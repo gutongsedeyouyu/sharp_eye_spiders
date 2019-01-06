@@ -2,7 +2,7 @@ import scrapy
 from json import loads as json_loads
 
 from sharp_eye_spiders.items import AnnouncementItem
-from sharp_eye_spiders.models import _database, AnnouncementFile
+from sharp_eye_spiders.models import _database, Company, AnnouncementFile
 
 
 class CninfoSpider(scrapy.Spider):
