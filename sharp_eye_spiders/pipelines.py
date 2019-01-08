@@ -32,8 +32,8 @@ class AnnouncementPipeline(FilesPipeline):
             if not ok:
                 continue
             file_path = '{0}{1}{2}'.format(settings.FILES_STORE, os.path.sep, result['path'])
-            AnnouncementFile.add(self.db, security_code=item['security_code'], company_name=item['company_name'],
-                                 title=item['title'],
+            AnnouncementFile.add(self.db, company_id=item['company_id'], security_code=item['security_code'],
+                                 company_name=item['company_name'], title=item['title'],
                                  announcement_time=datetime.fromtimestamp(int(item['announcement_time']) / 1000),
                                  source=item['source'], file_url=result['url'], original_url=result['url'])
         return super().item_completed(results, item, info)

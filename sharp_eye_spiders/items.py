@@ -9,6 +9,7 @@ import scrapy
 
 
 class AnnouncementItem(scrapy.Item):
+    company_id = scrapy.Field()
     security_code = scrapy.Field()
     company_name = scrapy.Field()
     title = scrapy.Field()

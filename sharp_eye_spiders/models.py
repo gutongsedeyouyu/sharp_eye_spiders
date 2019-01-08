@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import create_engine, Column, BigInteger, String, DateTime
+from sqlalchemy import create_engine, Column, BigInteger, String, DateTime, Integer
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -31,6 +31,8 @@ class AnnouncementFile(BaseModel):
     title = Column('title', String(128))
     announcementTime = Column('announcement_time', DateTime)
     source = Column('source', String(16))
+    isPublic = Column('is_public', Integer)
+    isStock = Column('is_stock', Integer)
     fileUrl = Column('file_url', String(256), unique=True)
     originalUrl = Column('original_url', String(256), unique=True)
     createTime = Column('create_time', DateTime)
@@ -41,11 +43,14 @@ class AnnouncementFile(BaseModel):
         return cursor.count() > 0
 
     @staticmethod
-    def add(db, security_code, company_name, title, announcement_time, file_url, original_url, source):
+    def add(db, company_id, security_code, company_name, title, announcement_time, source, file_url, original_url):
+        is_public = 1 if source in ('CHINAMONEY', ) else 0
+        is_stock = 1 if source in ('CNINFO', ) else 0
         now = datetime.now()
-        announcement = AnnouncementFile(securityCode=security_code, companyName=company_name,
+        announcement = AnnouncementFile(companyId=company_id, securityCode=security_code, companyName=company_name,
                                         title=title, announcementTime=announcement_time,
-                                        source=source, fileUrl=file_url, originalUrl=original_url,
+                                        source=source, isPublic=is_public, isStock=is_stock,
+                                        fileUrl=file_url, originalUrl=original_url,
                                         createTime=now)
         db.add(announcement)
         db.commit()

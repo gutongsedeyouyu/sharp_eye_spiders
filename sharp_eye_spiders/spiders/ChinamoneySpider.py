@@ -21,7 +21,7 @@ class CninfoSpider(scrapy.Spider):
     def parse_report_and_notice(self, response):
         result = json_loads(response.body.decode())
         for report in result['data']['resultList']:
-            yield AnnouncementItem(security_code='', company_name='武汉正通联合',
+            yield AnnouncementItem(company_id=None, security_code='', company_name='武汉正通联合',
                                    title=report['title'], announcement_time=datetime.strptime(report['releaseDate'][:-2], '%Y-%m-%d %H:%M:%S').timestamp(),
                                    source='CHINAMONEY',
                                    file_urls=['{0}/dqs/cm-s-notice-query/fileDownLoad.do?mode=open&contentId={1}&priority=0'.format('http://www.chinamoney.com.cn', report['contentId'])],
