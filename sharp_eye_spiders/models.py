@@ -21,6 +21,10 @@ class Company(BaseModel):
     name = Column('name', String(100))
     securityCode = Column('stockNumber', String(100))
 
+    @staticmethod
+    def list_all(db):
+        return [c for c in db.query(Company)]
+
 
 class AnnouncementFile(BaseModel):
     __tablename__ = 'announcement_file'

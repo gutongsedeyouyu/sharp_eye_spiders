@@ -12,6 +12,7 @@ class CninfoSpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.db = _database
+        self.companies = Company.list_all(self.db)
 
     def start_requests(self):
         yield scrapy.FormRequest(url='http://www.chinamoney.com.cn/ags/ms/cm-u-notice-md/ReportAndNotice',
