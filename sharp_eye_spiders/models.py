@@ -37,6 +37,7 @@ class AnnouncementFile(BaseModel):
     source = Column('source', String(16))
     isPublic = Column('is_public', Integer)
     isStock = Column('is_stock', Integer)
+    negative = Column('negative', String(1))
     fileUrl = Column('file_url', String(256), unique=True)
     originalUrl = Column('original_url', String(256), unique=True)
     createTime = Column('create_time', DateTime)
@@ -53,7 +54,7 @@ class AnnouncementFile(BaseModel):
         now = datetime.now()
         announcement = AnnouncementFile(companyId=company_id, securityCode=security_code, companyName=company_name,
                                         title=title, announcementTime=announcement_time,
-                                        source=source, isPublic=is_public, isStock=is_stock,
+                                        source=source, isPublic=is_public, isStock=is_stock, negative='',
                                         fileUrl=file_url, originalUrl=original_url,
                                         createTime=now)
         db.add(announcement)
