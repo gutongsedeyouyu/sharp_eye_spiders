@@ -57,7 +57,7 @@ class CninfoSpider(scrapy.Spider):
                 file_url = 'http://static.cninfo.com.cn/{0}'.format(announcement['adjunctUrl'])
                 if AnnouncementFile.exists(self.db, file_url):
                     continue
-                company_id = ''
+                company_id = None
                 for company in self.companies:
                     if company.securityCode == security_code:
                         company_id = company.id
