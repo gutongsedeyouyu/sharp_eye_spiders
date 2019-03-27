@@ -20,10 +20,22 @@ class Company(BaseModel):
     id = Column('keyNo', String(32), primary_key=True)
     name = Column('name', String(100))
     securityCode = Column('stockNumber', String(100))
+    isPublic = Column('isPublic', String(50))
+    isChekctPublic = Column('isChekctPublic', String(50))
+    isOnStock = Column('isOnStock', String(50))
+    isChekctStock = Column('isChekctStock', String(50))
 
     @staticmethod
     def list_all(db):
         return [c for c in db.query(Company)]
+    
+    @staticmethod
+    def list_public_not_checked(db):
+        return [c for c in db.query(Company).filter(Company.isChekctPublic == None)]
+    
+    @staticmethod
+    def list_stock_not_checked(db):
+        return [c for c in db.query(Company).filter(Company.isChekctStock == None)]
 
 
 class AnnouncementFile(BaseModel):
