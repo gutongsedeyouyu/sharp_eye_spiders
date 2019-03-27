@@ -33,11 +33,18 @@ class CninfoSpider(scrapy.Spider):
         security_code_prefix = response.meta['securityCodePrefix']
         page_num = 1
         page_count = int(json_loads(response.body.decode('utf-8'))['totalpages'])
-        yield scrapy.Request(url=self.page_url(security_code_prefix, page_num), method='POST',
-                             callback=self.parse_page, meta={'securityCodePrefix': security_code_prefix, 'pageNum': page_num, 'pageCount': page_count})
+        page_url = self.page_url(security_code_prefix, page_num)
+        if len(page_url) > 0:
+            yield scrapy.Request(url=page_url, method='POST',
+                                 callback=self.parse_page, meta={'securityCodePrefix': security_code_prefix, 'pageNum': page_num, 'pageCount': page_count})
 
     def page_url(self, security_code_prefix, page_num):
-        return 'http://www.cninfo.com.cn/new/disclosure?column={0}se_latest&pageNum={1}&pageSize=20'.format(security_code_prefix.lower(), page_num)
+        if security_code_prefix == 'SZ':
+            return 'http://www.cninfo.com.cn/new/disclosure?column={0}se_latest&pageNum={1}&pageSize=20'.format('sz', page_num)
+        elif security_code_prefix == 'SH':
+            return 'http://www.cninfo.com.cn/new/disclosure?column={0}se_latest&pageNum={1}&pageSize=20'.format('s', page_num)
+        else
+            return ''
 
     def parse_page(self, response):
         security_code_prefix, page_num, page_count = response.meta['securityCodePrefix'], response.meta['pageNum'], response.meta['pageCount']
