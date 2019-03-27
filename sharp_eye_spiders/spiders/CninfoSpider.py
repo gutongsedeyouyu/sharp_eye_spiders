@@ -43,7 +43,7 @@ class CninfoSpider(scrapy.Spider):
             return 'http://www.cninfo.com.cn/new/disclosure?column={0}se_latest&pageNum={1}&pageSize=20'.format('sz', page_num)
         elif security_code_prefix == 'SH':
             return 'http://www.cninfo.com.cn/new/disclosure?column={0}se_latest&pageNum={1}&pageSize=20'.format('s', page_num)
-        else
+        else:
             return ''
 
     def parse_page(self, response):
