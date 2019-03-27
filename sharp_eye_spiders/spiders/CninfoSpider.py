@@ -26,6 +26,8 @@ class CninfoSpider(scrapy.Spider):
             self.db.commit()
         yield scrapy.Request(url='http://www.cninfo.com.cn/new/index/getAnnouces?type=sz',
                              callback=self.parse_page_count, meta={'securityCodePrefix': 'SZ'})
+        yield scrapy.Request(url='http://www.cninfo.com.cn/new/index/getAnnouces?type=sh',
+                             callback=self.parse_page_count, meta={'securityCodePrefix': 'SH'})
 
     def parse_page_count(self, response):
         security_code_prefix = response.meta['securityCodePrefix']
