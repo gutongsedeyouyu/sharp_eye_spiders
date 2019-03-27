@@ -13,6 +13,7 @@ class CninfoSpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.db = _database
+        self.companies = []
 
     def start_requests(self):
         for company in Company.list_stock_not_checked(self.db):
@@ -24,6 +25,7 @@ class CninfoSpider(scrapy.Spider):
             company.isChekctStock = 't'
             self.db.add(company)
             self.db.commit()
+        self.companies = Company.list_stock(self.db)
         yield scrapy.Request(url='http://www.cninfo.com.cn/new/index/getAnnouces?type=sz',
                              callback=self.parse_page_count, meta={'securityCodePrefix': 'SZ'})
         yield scrapy.Request(url='http://www.cninfo.com.cn/new/index/getAnnouces?type=sh',
@@ -52,10 +54,14 @@ class CninfoSpider(scrapy.Spider):
         for announcements in all_announcements:
             for announcement in announcements:
                 security_code = '{0}{1}'.format(security_code_prefix, announcement['secCode'])
-                file_url = 'http://www.cninfo.com.cn/{0}'.format(announcement['adjunctUrl'])
+                file_url = 'http://static.cninfo.com.cn/{0}'.format(announcement['adjunctUrl'])
                 if AnnouncementFile.exists(self.db, file_url):
                     continue
-                yield AnnouncementItem(company_id=None, security_code=security_code, company_name=announcement['secName'],
+                company_id = ''
+                for company in self.companies:
+                    if company.securityCode == security_code:
+                        company_id = company.id
+                yield AnnouncementItem(company_id=company_id, security_code=security_code, company_name=announcement['secName'],
                                        title=announcement['announcementTitle'], announcement_time=announcement['announcementTime'],
                                        source='CNINFO', file_urls=[file_url], referer='')
         if page_num < page_count:

@@ -36,6 +36,10 @@ class Company(BaseModel):
     @staticmethod
     def list_stock_not_checked(db):
         return [c for c in db.query(Company).filter(Company.isChekctStock == None)]
+    
+    @staticmethod
+    def list_stock(db):
+        return [c for c in db.query(Company).filter(Company.isOnStock == '1')]
 
 
 class AnnouncementFile(BaseModel):
