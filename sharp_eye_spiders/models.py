@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import create_engine, Column, BigInteger, String, DateTime, Integer
+from sqlalchemy import create_engine, Column, BigInteger, String, DateTime, Integer, or_
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -31,11 +31,11 @@ class Company(BaseModel):
     
     @staticmethod
     def list_public_not_checked(db):
-        return [c for c in db.query(Company).filter(Company.isChekctPublic == None)]
+        return [c for c in db.query(Company).filter(or_(Company.isChekctPublic == None, Company.isChekctPublic == 'f'))]
     
     @staticmethod
     def list_stock_not_checked(db):
-        return [c for c in db.query(Company).filter(Company.isChekctStock == None)]
+        return [c for c in db.query(Company).filter(or_(Company.isChekctStock == None, Company.isChekctStock == 'f'))]
     
     @staticmethod
     def list_stock(db):
