@@ -1,4 +1,5 @@
 LOG_LEVEL = 'ERROR'
+LOG_FILE = '/path/to/logfile'
 ROBOTSTXT_OBEY = True
 
 FILES_STORE = '/path/to/files/store'
