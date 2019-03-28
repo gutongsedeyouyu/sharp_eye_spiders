@@ -18,6 +18,7 @@ SPIDER_MODULES = ['sharp_eye_spiders.spiders']
 NEWSPIDER_MODULE = 'sharp_eye_spiders.spiders'
 
 LOG_LEVEL = config.LOG_LEVEL
+LOG_FILE = config.LOG_FILE
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'sharp_eye_spiders (+http://www.yourdomain.com)'
