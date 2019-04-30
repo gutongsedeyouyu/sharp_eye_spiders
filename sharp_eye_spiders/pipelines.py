@@ -32,6 +32,8 @@ class AnnouncementPipeline(FilesPipeline):
             if not ok:
                 continue
             file_path = '{0}{1}{2}'.format(settings.FILES_STORE, os.path.sep, result['path'])
+            if os.path.exists(file_path):
+                os.remove(file_path)
             AnnouncementFile.add(self.db, company_id=item['company_id'], security_code=item['security_code'],
                                  company_name=item['company_name'], title=item['title'],
                                  announcement_time=datetime.fromtimestamp(int(item['announcement_time']) / 1000),
